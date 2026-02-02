@@ -1,0 +1,74 @@
+# ============================================================
+# Vision Detector - Configuration
+# Edit this file to customize detection behavior and display.
+# For local overrides, copy to config.local.yaml
+# ============================================================
+
+# Enable verbose logging to console
+debug: true
+
+# Interface language: "fr" (French) or "en" (English)
+language: fr
+
+vision:
+
+  # --- Camera / Webcam Capture ---
+  camera:
+    # Camera index (0 = default webcam, 1 = external camera, etc.)
+    device_id: 0
+    # Capture resolution (width x height in pixels)
+    # Common values: 640x480, 1280x720, 1920x1080
+    # Higher resolution = better accuracy but slower processing
+    width: 1280
+    height: 720
+    # Target frames per second (range: 15-60, recommended: 30)
+    fps: 30
+    # Circular buffer size (number of frames kept in memory)
+    # Lower = less latency, higher = smoother output
+    buffer_size: 5
+
+  # --- MediaPipe Detection (face, hands, pose) ---
+  mediapipe:
+    # Minimum confidence to accept a detection (0.0 to 1.0)
+    # Lower (0.3) = more detections but more false positives
+    # Higher (0.7) = fewer detections but more reliable
+    min_detection_confidence: 0.5
+    # Minimum confidence for frame-to-frame tracking (0.0 to 1.0)
+    # Lower if tracking drops frequently between frames
+    min_tracking_confidence: 0.5
+    # Background segmentation (experimental, increases CPU usage)
+    enable_segmentation: false
+
+  # --- Presence Detection ---
+  presence:
+    # Seconds without a detected face before state switches to "AWAY"
+    away_threshold_seconds: 5.0
+    # Seconds of stable face detection before switching back to "PRESENT"
+    returning_threshold_seconds: 1.0
+
+  # --- Posture Analysis ---
+  posture:
+    # Forward tilt angle (degrees) above which slouching is detected
+    # Recommended range: 10-20 (lower = more sensitive)
+    slouch_threshold_degrees: 15.0
+    # Show visual alert when poor posture is detected
+    enable_alerts: true
+
+  # --- Debug Visualization (overlay on video feed) ---
+  visualization:
+    # Master toggle for the entire debug overlay
+    enabled: true
+    # Show face mesh (478 landmark points)
+    show_face_landmarks: true
+    # Show hand skeleton (21 points per hand)
+    show_hand_landmarks: true
+    # Show body pose skeleton (33 points)
+    show_pose_landmarks: true
+    # Show info panel (emotion, presence, FPS, etc.)
+    show_info_overlay: true
+    # Landmark colors in BGR format (not RGB!)
+    # Format: [Blue, Green, Red], each 0-255
+    face_color: [0, 255, 0]        # Green
+    left_hand_color: [255, 0, 0]   # Blue
+    right_hand_color: [0, 0, 255]  # Red
+    pose_color: [255, 255, 0]      # Cyan
